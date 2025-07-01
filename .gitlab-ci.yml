@@ -9,7 +9,7 @@ default:
 variables:
   UPLOAD_VIDEO_IMAGE: hub.lumigame.com/pentagon-base/tool-s3:1.0
 
-upload_to_file_server:
+upload_to_s3:
   stage: deploy
   image: $UPLOAD_VIDEO_IMAGE
   before_script:
