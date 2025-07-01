@@ -1,0 +1,52 @@
+stages:
+  - deploy
+  - clean
+
+default:
+  tags:
+    - k8s
+
+variables:
+  UPLOAD_VIDEO_IMAGE: hub.lumigame.com/pentagon-base/tool-s3:1.0
+
+upload_to_file_server:
+  stage: deploy
+  image: $UPLOAD_VIDEO_IMAGE
+  before_script:
+    - if [ ! -f /etc/ssl/certs/ca-certificates.crt ]; then
+      apt-get update && apt-get install -y ca-certificates && update-ca-certificates;
+      fi
+  script:
+    - echo $TRANSFORM_CONFIG
+    - eval $(export_vars)
+    - mkdir -p /tmp/upload
+    - |
+      if [ -z "$FS_USERNAME" ]; then
+        echo "ERROR: FS_USERNAME variable is not set"
+        exit 1
+      fi
+    - |
+      if [ -z "$FS_PASSWORD" ]; then
+        echo "ERROR: FS_PASSWORD variable is not set"
+        exit 1
+      fi
+    - mkdir -p /mnt/share_folder
+    - mount -t cifs $FILESERVER /mnt/share_folder -o username=$FS_USERNAME,password=$FS_PASSWORD,domain=LUMINET
+    - upload_videos --path /mnt/share_folder/$UPLOAD_FOLDER -r upload_summary.json
+  rules:
+    - if: $SKIP_UPLOAD_VIDEO == "true"
+      when: never
+    - if: $CI_COMMIT_TAG =~ /^deploy-/ && $DEPLOY_BY == "rocketor"
+      when: manual
+  artifacts:
+    paths:
+      - upload_summary.json
+    expire_in: 2 day
+
+clean_up:
+  stage: clean
+  script:
+    - curl --request DELETE --header "PRIVATE-TOKEN:$CI_JOB_TOKEN" $GITLAB_API_URL/projects/$CI_PROJECT_ID/repository/tags/$CI_COMMIT_TAG
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^deploy-/ && $DEPLOY_BY == "rocketor"
+      when: always
