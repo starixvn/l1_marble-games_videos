@@ -30,6 +30,16 @@ upload_to_file_server:
         echo "ERROR: FS_PASSWORD variable is not set"
         exit 1
       fi
+    - |
+      if [ -z "$FILESERVER" ]; then
+        echo "ERROR: FILESERVER variable is not set"
+        exit 1
+      fi
+    - |
+      if [ -z "$UPLOAD_FOLDER" ]; then
+        echo "ERROR: UPLOAD_FOLDER variable is not set"
+        exit 1
+      fi
     - mkdir -p /mnt/share_folder
     - mount -t cifs $FILESERVER /mnt/share_folder -o username=$FS_USERNAME,password=$FS_PASSWORD,domain=LUMINET
     - upload_videos --path /mnt/share_folder/$UPLOAD_FOLDER -r upload_summary.json
