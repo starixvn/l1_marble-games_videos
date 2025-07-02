@@ -25,7 +25,7 @@ python scripts/convert.py <input_path> <output_path> <meta_path> <blender_versio
 
 Suppose you have:
 
-- Input files in `\\ds925p.nexdev.net\paradigm\spinner_soccer_galaxy\Batch_2\output`
+- Input files in `\\ds925p.nexdev.net\paradigm\resources\spinner_soccer_galaxy\Batch_2\output`
 - Output directory at `\\ds925p.nexdev.net\paradigm\deployments\galaxy`
 - A `meta.json` file in `.\meta.json` (create one with `{}` if it doesn't exist)
 - Blender version is `2`
@@ -33,7 +33,7 @@ Suppose you have:
 Run:
 
 ```sh
-python scripts/convert.py \\ds925p.nexdev.net\paradigm\spinner_soccer_galaxy\Batch_2\output \\ds925p.nexdev.net\paradigm\deployments\galaxy .\meta_galaxy.json 2
+python scripts/convert.py \\ds925p.nexdev.net\paradigm\resources\spinner_soccer_galaxy\Batch_2\output \\ds925p.nexdev.net\paradigm\deployments\galaxy .\meta_galaxy.json 2
 ```
 
 ## What it does
