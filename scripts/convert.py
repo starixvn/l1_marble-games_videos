@@ -24,6 +24,7 @@ def add_new_files(result: dict[str, list[tuple[str, str]]], input_path = "/input
                   output_path = "/output", output_meta_path = "/meta.json", version = 1):
     with open(output_meta_path, "r") as f:
         data = json.load(f)
+    print("Start converting ...")
     for item in result.keys():
         if item not in data:
             data[item] = []
@@ -91,7 +92,9 @@ def summary(meta_path):
 if __name__ == "__main__":
     input_path = sys.argv[1]
     output_path = sys.argv[2]
+    meta_path = sys.argv[3]
+    blender_version = sys.argv[4]
     result = read_new_files(input_path)
-    add_new_files(result, input_path, output_path, "meta.json", 2)
-    summary("meta.json")
+    add_new_files(result, input_path, output_path, meta_path, blender_version)
+    summary(meta_path)
     print("Done")

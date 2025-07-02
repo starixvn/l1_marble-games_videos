@@ -1,8 +1,8 @@
-# How to Use scripts/check_file.py
+# How to Use scripts/convert.py
 
 ## Purpose
 
-`check_file.py` processes `.mp4` video files and their corresponding `.json` metadata files from an input directory, organizes them into an output directory, updates a `meta.json` file, and prints a summary.
+`convert.py` processes `.mp4` video files and their corresponding `.json` metadata files from an input directory, organizes them into an output directory, updates a `meta.json` file, and prints a summary.
 
 ## Requirements
 
@@ -13,12 +13,13 @@
 ## Usage
 
 ```sh
-python scripts/check_file.py <input_path> <output_path>
+python scripts/convert.py <input_path> <output_path> <meta_path> <blender_version>
 ```
 
 - `<input_path>`: Directory containing your `.mp4` and `.json` files.
 - `<output_path>`: Directory where processed files will be stored.
-- The script expects a `meta.json` file in the current working directory.
+- `<meta_path>`: Path to the `meta.json` file to update.
+- `<blender_version>`: Version number to record in the metadata (integer).
 
 ## Example
 
@@ -26,13 +27,13 @@ Suppose you have:
 
 - Input files in `\\ds925p.nexdev.net\paradigm\spinner_soccer_galaxy\Batch_2\output`
 - Output directory at `\\ds925p.nexdev.net\paradigm\upload_galaxy`
-- A `meta.json` file in `D:\Task\Streaming\Marble Football\videos\` (create one with `{}` if it doesn't exist)
+- A `meta.json` file in `D:\Task\Streaming\Marble Football\videos\meta.json` (create one with `{}` if it doesn't exist)
+- Blender version is `1`
 
 Run:
 
 ```sh
-cd D:\Task\Streaming\Marble Football\videos
-python scripts/check_file.py input output
+python scripts/convert.py \\ds925p.nexdev.net\paradigm\spinner_soccer_galaxy\Batch_2\output \\ds925p.nexdev.net\paradigm\deployments\galaxy .\meta_galaxy.json 1
 ```
 
 ## What it does
