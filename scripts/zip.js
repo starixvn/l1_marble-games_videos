@@ -209,7 +209,7 @@ function main() {
   const tempDir = createTempDirectory(theme, `${fileServer}/deployments`);
   const zipFileName = `${theme}.zip`;
   const zipPath = path.join(archivedPath, zipFileName);
-  const finalZipPath = path.join(deploymentPath, zipFileName);
+  const finalZipPath = path.join(archivedPath, zipFileName);
 
   console.log(`📂 Deployment path: ${deploymentPath}`);
   console.log(`📁 Temporary directory: ${tempDir}`);
