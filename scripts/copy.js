@@ -241,8 +241,8 @@ function main() {
 
   if (!theme || !blenderVersion) {
     console.error("❌ Error: Missing required arguments");
-    console.error("Usage: node convert.js <theme> <blender_version>");
-    console.error("Example: node convert.js galaxy 3.6");
+    console.error("Usage: node copy.js <theme> <blender_version>");
+    console.error("Example: node copy.js galaxy 3.6");
     process.exit(1);
   }
 
