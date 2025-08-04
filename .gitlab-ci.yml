@@ -35,6 +35,7 @@ after_script:
           echo "Syncing $theme"
 
           existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||")
+          s3cmd -c $s3cfg put keys/encrypted.key "s3://$BUCKET/$theme/encrypted.key"
 
           find $fileserver_path/$theme -type f | while read file; do
               filename=$(basename "$file")
