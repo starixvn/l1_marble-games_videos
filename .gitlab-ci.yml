@@ -11,29 +11,52 @@ variables:
 
 before_script:
   - mkdir -p /paradigm
-  - mount -t cifs //ds925p.nexdev.net/paradigm/deployments /paradigm -o username=gitlab.runner,password=5tgb^YHN7ujm,domain=LUMINET
+  - mount -t cifs //ds925p.nexdev.net/paradigm/deployments /paradigm -o username=gitlab.runner,password=$FILESERVER_PASSWORD,domain=LUMINET
 
 after_script:
   - umount /paradigm
 
-sync:
+.sync:
   stage: deploy
   image:
     name: d3fk/s3cmd
     entrypoint: ["/bin/sh"]
+  variables:
+    ENVIRONMENT: $ENVIRONMENT
+    BUCKET: $BUCKET
   script:
     - theme=2002
-    - environment=local
-    - s3cfg=configs/$environment.s3cfg
+    - s3cfg=configs/$ENVIRONMENT.s3cfg
+    - fileserver_path=/paradigm
     - |
-      existing_files=$(s3cmd -c $s3cfg ls s3://scstream/$theme/ | awk '{print $4}' | sed "s|s3://scstream/$theme/||")
-      find /paradigm/$theme -type f | while read file; do
-          filename=$(basename "$file")
+      for path in $fileserver_path/*; do
+        if [ -d "$path" ] && [ "$path" != "$fileserver_path/archived" ]; then
+          theme=$(basename "$path")
+          echo "Syncing $theme"
 
-          if echo "$existing_files" | grep -q "^$filename$"; then
-              continue
-          fi
+          existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||")
 
-          s3cmd -c $s3cfg put "$file" "s3://scstream/$theme/$filename"
+          find $fileserver_path/$theme -type f | while read file; do
+              filename=$(basename "$file")
+
+              if echo "$existing_files" | grep -q "^$filename$"; then
+                  continue
+              fi
+
+              s3cmd -c $s3cfg put "$file" "s3://$BUCKET/$theme/$filename"
+          done
+        fi
       done
   when: manual
+
+sync_local:
+  extends: .sync
+  variables:
+    ENVIRONMENT: local
+    BUCKET: scstream
+
+sync_prod:
+  extends: .sync
+  variables:
+    ENVIRONMENT: prod
+    BUCKET: vnteam-sc-stream-prod
