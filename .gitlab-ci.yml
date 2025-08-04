@@ -9,58 +9,31 @@ default:
 variables:
   UPLOAD_VIDEO_IMAGE: hub.lumigame.com/pentagon-base/tool-s3:1.0
 
-upload_to_s3:
-  stage: deploy
-  image: $UPLOAD_VIDEO_IMAGE
-  before_script:
-    - if [ ! -f /etc/ssl/certs/ca-certificates.crt ]; then
-      apt-get update && apt-get install -y ca-certificates && update-ca-certificates;
-      fi
-  script:
-    - echo $TRANSFORM_CONFIG
-    - eval $(export_vars)
-    - mkdir -p /tmp/upload
-    - |
-      if [ -z "$FS_USERNAME" ]; then
-        echo "ERROR: FS_USERNAME variable is not set"
-        exit 1
-      fi
-    - |
-      if [ -z "$FS_PASSWORD" ]; then
-        echo "ERROR: FS_PASSWORD variable is not set"
-        exit 1
-      fi
-    - |
-      if [ -z "$FILESERVER" ]; then
-        echo "ERROR: FILESERVER variable is not set"
-        exit 1
-      fi
-    - |
-      if [ -z "$UPLOAD_FOLDER" ]; then
-        echo "ERROR: UPLOAD_FOLDER variable is not set"
-        exit 1
-      fi
-    - mkdir -p /mnt/share_folder
-    - mount -t cifs $FILESERVER /mnt/share_folder -o username=$FS_USERNAME,password=$FS_PASSWORD,domain=LUMINET
-    - |
-      themes=$(ls ./themes)
-      for theme in $themes; do
-        echo "Uploading theme: $theme"
-        upload_videos --path /mnt/share_folder/$UPLOAD_FOLDER/$theme -r uploaded_$theme.json
-      done
-  rules:
-    - if: $SKIP_UPLOAD_VIDEO == "true"
-      when: never
-    - if: $CI_COMMIT_TAG =~ /^deploy-/ && $DEPLOY_BY == "rocketor"
-  artifacts:
-    paths:
-      - "uploaded_*.json"
-    expire_in: 2 day
+before_script:
+  - mkdir -p /paradigm
+  - mount -t cifs //ds925p.nexdev.net/paradigm/deployments /paradigm -o username=gitlab.runner,password=5tgb^YHN7ujm,domain=LUMINET
 
-clean_up:
-  stage: clean
+after_script:
+  - umount /paradigm
+
+sync:
+  stage: deploy
+  image:
+    name: d3fk/s3cmd
+    entrypoint: ["/bin/sh"]
   script:
-    - curl --request DELETE --header "PRIVATE-TOKEN:$CI_JOB_TOKEN" $GITLAB_API_URL/projects/$CI_PROJECT_ID/repository/tags/$CI_COMMIT_TAG
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^deploy-/ && $DEPLOY_BY == "rocketor"
-      when: always
+    - theme=2002
+    - environment=local
+    - s3cfg=configs/$environment.s3cfg
+    - |
+      existing_files=$(s3cmd -c $s3cfg ls s3://scstream/$theme/ | awk '{print $4}' | sed "s|s3://scstream/$theme/||")
+      find /paradigm/$theme -type f | while read file; do
+          filename=$(basename "$file")
+
+          if echo "$existing_files" | grep -q "^$filename$"; then
+              continue
+          fi
+
+          s3cmd -c $s3cfg put "$file" "s3://scstream/$theme/$filename"
+      done
+  when: manual
