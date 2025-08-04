@@ -25,7 +25,6 @@ after_script:
     ENVIRONMENT: $ENVIRONMENT
     BUCKET: $BUCKET
   script:
-    - theme=2002
     - s3cfg=configs/$ENVIRONMENT.s3cfg
     - fileserver_path=/paradigm
     - |
@@ -35,7 +34,9 @@ after_script:
           echo "Syncing $theme"
 
           existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||")
-          s3cmd -c $s3cfg put keys/encrypted.key "s3://$BUCKET/$theme/encrypted.key"
+
+          echo "Putting encryption.key"
+          s3cmd -c $s3cfg put keys/encryption.key "s3://$BUCKET/$theme/encryption.key"
 
           find $fileserver_path/$theme -type f | while read file; do
               filename=$(basename "$file")
