@@ -35,7 +35,7 @@ after_script:
           
           existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||")
           echo "DEBUG: existing_files content:"
-          echo "$existing_files" | cat -A
+          echo "$existing_files"
 
           echo "Putting encryption.key"
           s3cmd -c $s3cfg put keys/encryption.key "s3://$BUCKET/$theme/encryption.key"
