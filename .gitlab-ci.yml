@@ -32,14 +32,24 @@ after_script:
         if [ -d "$path" ] && [ "$path" != "$fileserver_path/archived" ]; then
           theme=$(basename "$path")
           echo "Syncing $theme"
+          
           existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||")
+          echo "DEBUG: existing_files content:"
+          echo "$existing_files" | cat -A
+
           echo "Putting encryption.key"
           s3cmd -c $s3cfg put keys/encryption.key "s3://$BUCKET/$theme/encryption.key"
+
           find $fileserver_path/$theme -type f | while read file; do
             filename=$(basename "$file")
-            if echo "$existing_files" | grep -Fxq "^$filename$"; then
+
+            echo "DEBUG: Checking filename: $filename"
+
+            if echo "$existing_files" | grep -q "^$filename$"; then
+              echo "DEBUG: File $filename already exists, skipping"
               continue
             fi
+
             s3cmd -c $s3cfg put "$file" "s3://$BUCKET/$theme/$filename"
           done
         fi
