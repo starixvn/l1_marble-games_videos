@@ -33,7 +33,7 @@ after_script:
           theme=$(basename "$path")
           echo "Syncing $theme"
           
-          existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||")
+          existing_files=$(s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||" | grep -v '/$')
           echo "DEBUG: existing_files content:"
           echo "$existing_files"
 
