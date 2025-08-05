@@ -42,7 +42,6 @@ after_script:
           echo "[$theme] Getting existing files"
           (s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||" | grep -v '/$') > $uploaded
 
-
           find $fileserver_path/$theme -type f | while read file; do
             filename=$(basename "$file")
 
