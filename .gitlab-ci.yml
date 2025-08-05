@@ -19,7 +19,7 @@ after_script:
 .sync:
   stage: deploy
   image:
-    name: d3fk/s3cmd
+    name: hub.lumigame.com/docker-hub/d3fk/s3cmd
     entrypoint: ["/bin/sh"]
   variables:
     ENVIRONMENT: $ENVIRONMENT
