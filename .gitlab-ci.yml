@@ -58,8 +58,6 @@ after_script:
             echo "[$theme] Synced $count/$total_files files, skipped $skipped files"
           done
         fi
-
-        rm $uploaded
       done
   when: manual
 
