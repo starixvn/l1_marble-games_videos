@@ -46,6 +46,8 @@ after_script:
 
             if grep -Fxq -- "$filename" "$uploaded"; then
               skipped=$((skipped + 1))
+
+              echo "[$theme] Synced $count/$total_files files, skipped $skipped files"
               continue
             fi
 
@@ -54,8 +56,6 @@ after_script:
             count=$((count + 1))
             echo "[$theme] Synced $count/$total_files files, skipped $skipped files"
           done
-
-          echo "[$theme] Synced $count/$total_files files, skipped $skipped files"
         fi
 
         rm $uploaded
