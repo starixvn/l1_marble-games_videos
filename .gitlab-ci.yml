@@ -36,11 +36,8 @@ after_script:
           count=0
           skipped=0
           
+          echo "[$theme] Getting existing files"
           (s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||" | grep -v '/$') > $uploaded
-
-          if [ ! -f "$uploaded" ]; then
-            touch $uploaded
-          fi
 
           echo "[$theme] Putting encryption.key"
           s3cmd -c $s3cfg put --quiet keys/encryption.key "s3://$BUCKET/$theme/encryption.key"
