@@ -44,14 +44,14 @@ after_script:
         if grep -Fxq -- "$filename" "$uploaded"; then
           skipped=$((skipped + 1))
 
-          echo "[$THEME] Synced $count/$total_files files, skipped $skipped files"
+          echo "[$THEME] Synced $count/$((total_files - skipped)) files, skipped $skipped files"
           continue
         fi
 
         s3cmd -c $s3cfg put --quiet "$file" "s3://$BUCKET/$THEME/$filename"
 
         count=$((count + 1))
-        echo "[$THEME] Synced $count/$total_files files, skipped $skipped files"
+        echo "[$THEME] Synced $count/$((total_files - skipped)) files, skipped $skipped files"
       done
   when: manual
 
