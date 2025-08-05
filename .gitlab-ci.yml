@@ -45,7 +45,7 @@ after_script:
 
             echo "DEBUG: Checking filename: $filename"
 
-            if echo "$existing_files" | grep -q "^$filename$"; then
+            if echo "$existing_files" | grep -Fxq -- "^$filename$"; then
               echo "DEBUG: File $filename already exists, skipping"
               continue
             fi
