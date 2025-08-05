@@ -60,9 +60,8 @@ after_script:
   when: manual
   artifacts:
     paths:
-      - *.txt
+      - "*.txt"
     expire_in: 1 day
-
 
 sync_local:
   extends: .sync
