@@ -6,9 +6,6 @@ default:
   tags:
     - k8s
 
-variables:
-  UPLOAD_VIDEO_IMAGE: hub.lumigame.com/pentagon-base/tool-s3:1.0
-
 before_script:
   - mkdir -p /paradigm
   - mount -t cifs //ds925p.nexdev.net/paradigm/deployments /paradigm -o username=gitlab.runner,password=$FILESERVER_PASSWORD,domain=LUMINET
@@ -24,51 +21,63 @@ after_script:
   variables:
     ENVIRONMENT: $ENVIRONMENT
     BUCKET: $BUCKET
+    THEME: $THEME
   script:
     - |
       s3cfg=configs/$ENVIRONMENT.s3cfg
       fileserver_path=/paradigm
       uploaded=uploaded.txt
-      for path in $fileserver_path/*; do
-        if [ -d "$path" ] && [ "$path" != "$fileserver_path/archived" ]; then
-          theme=$(basename "$path")
-          total_files=$(find $fileserver_path/$theme -type f | wc -l)
-          count=0
-          skipped=0
+      theme=$THEME
+      total_files=$(find $fileserver_path/$THEME -type f | wc -l)
+      count=0
+      skipped=0
 
-          echo "[$theme] Putting encryption.key"
-          s3cmd -c $s3cfg put --quiet keys/encryption.key "s3://$BUCKET/$theme/encryption.key"
-          
-          echo "[$theme] Getting existing files"
-          (s3cmd -c $s3cfg ls s3://$BUCKET/$theme/ | awk '{print $4}' | sed "s|s3://$BUCKET/$theme/||" | grep -v '/$') > $uploaded
+      echo "[$THEME] Putting encryption.key"
+      s3cmd -c $s3cfg put --quiet keys/encryption.key "s3://$BUCKET/$THEME/encryption.key"
 
-          find $fileserver_path/$theme -type f | while read file; do
-            filename=$(basename "$file")
+      echo "[$THEME] Getting existing files"
+      (s3cmd -c $s3cfg ls s3://$BUCKET/$THEME/ | awk '{print $4}' | sed "s|s3://$BUCKET/$THEME/||" | grep -v '/$') > $uploaded
 
-            if grep -Fxq -- "$filename" "$uploaded"; then
-              skipped=$((skipped + 1))
+      find $fileserver_path/$THEME -type f | while read file; do
+        filename=$(basename "$file")
 
-              echo "[$theme] Synced $count/$total_files files, skipped $skipped files"
-              continue
-            fi
+        if grep -Fxq -- "$filename" "$uploaded"; then
+          skipped=$((skipped + 1))
 
-            s3cmd -c $s3cfg put --quiet "$file" "s3://$BUCKET/$theme/$filename"
-
-            count=$((count + 1))
-            echo "[$theme] Synced $count/$total_files files, skipped $skipped files"
-          done
+          echo "[$THEME] Synced $count/$total_files files, skipped $skipped files"
+          continue
         fi
+
+        s3cmd -c $s3cfg put --quiet "$file" "s3://$BUCKET/$THEME/$filename"
+
+        count=$((count + 1))
+        echo "[$THEME] Synced $count/$total_files files, skipped $skipped files"
       done
   when: manual
 
-sync_local:
+sync:
   extends: .sync
-  variables:
-    ENVIRONMENT: local
-    BUCKET: scstream
-
-sync_prod:
-  extends: .sync
-  variables:
-    ENVIRONMENT: prod
-    BUCKET: vnteam-sc-stream-prod
+  parallel:
+    matrix:
+      - ENVIRONMENT: local
+        BUCKET: scstream
+        THEME:
+          - 2001
+          - epl_ars
+          - epl_che
+          - epl_liv
+          - epl_mci
+          - epl_mun
+          - epl_tot
+          - galaxy
+      - ENVIRONMENT: prod
+        BUCKET: vnteam-sc-stream-prod
+        THEME:
+          - 2001
+          - epl_ars
+          - epl_che
+          - epl_liv
+          - epl_mci
+          - epl_mun
+          - epl_tot
+          - galaxy
