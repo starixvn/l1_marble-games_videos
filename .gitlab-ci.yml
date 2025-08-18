@@ -54,6 +54,8 @@ after_script:
         echo "[$THEME] Synced $count/$((total_files - skipped)) files, skipped $skipped files"
       done
   when: manual
+  only:
+    - main
 
 sync:
   extends: .sync
@@ -70,6 +72,7 @@ sync:
           - epl_mun
           - epl_tot
           - galaxy
+          - youtube
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -81,3 +84,4 @@ sync:
           - epl_mun
           - epl_tot
           - galaxy
+          - youtube
