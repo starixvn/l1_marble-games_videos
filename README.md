@@ -1,5 +1,7 @@
 # How to Use scripts/copy.js
 
+Copy in rendered folder to deployments
+
 ## Requirements
 
 - Node.js (version 12 or higher)
@@ -23,3 +25,37 @@ The script expects the following structure:
 - Output: `//ds925p.nexdev.net/paradigm/deployments/{theme}/`
 - Metadata: `./themes/{theme}/meta.json`
 - Summary: `./themes/{theme}/summary.json`
+
+# How to use scripts/ffmpeg.js
+
+## Overview
+
+The `ffmpeg.js` script is a Node.js utility that automatically converts MP4 video files to HLS (HTTP Live Streaming) format with multiple quality levels and encryption. It's designed to process video files in bulk, converting them to streaming-ready formats for web delivery.
+
+## Usage
+
+### Basic Command
+
+```bash
+node scripts/ffmpeg.js <theme>
+```
+
+### Parameters
+
+- `<theme>` (required): The theme/directory name to process videos for
+  - Must be a valid theme directory under `//ds925p.nexdev.net/paradigm/deployments/`
+  - Examples: `galaxy`, `epl_ars`, `epl_che`, `epl_liv`, `epl_mci`, `epl_mun`, `epl_tot`, `youtube`
+
+## Output Structure
+
+For each processed video file, the script creates:
+
+```
+target/deployments/theme/filename/
+├── filename.m3u8          # Master playlist file
+├── filename_720p.m3u8     # 720p quality playlist
+├── filename_240p.m3u8     # 240p quality playlist
+├── filename_720p.ts       # 720p video segments
+├── filename_240p.ts       # 240p video segments
+└── filename.mp4           # Original source file
+```
