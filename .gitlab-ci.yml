@@ -73,6 +73,7 @@ sync:
           - epl_tot
           - galaxy
           - youtube
+          - marble_tv
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -85,3 +86,4 @@ sync:
           - epl_tot
           - galaxy
           - youtube
+          - marble_tv
