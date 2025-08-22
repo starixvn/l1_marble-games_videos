@@ -22,5 +22,11 @@
     "HHHH": 2,
     "HHH": 9,
     "HH": 19,
-    "H": 29
+    "H": 29,
+    "AHAA": 2,
+    "HAHH": 2,
+    "HHHA": 2,
+    "AAHA": 2,
+    "HHAH": 2,
+    "HAAA": 1
 }

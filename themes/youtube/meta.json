@@ -1565,5 +1565,94 @@
             "new_name": "8b1781c5ea0175aa538cb729697ba7d50f7c594127d65eb6e7e210fe36e6bcc7",
             "index": 28
         }
+    ],
+    "AHAA": [
+        {
+            "filename": "AHAA_3842.3.mp4",
+            "version": "2",
+            "meta": "AHAA_3842.3.json",
+            "new_name": "4abd1b067acf617a255861fb3a5d8bb0838c89ec4eac1cc25538583568fdf985",
+            "index": 0
+        },
+        {
+            "filename": "AHAA_3598.3.mp4",
+            "version": "2",
+            "meta": "AHAA_3598.3.json",
+            "new_name": "191ad7e88b32140d3ba98d9009d5c70833c16e8bf27d3c963fe5161d4f94dcb3",
+            "index": 1
+        }
+    ],
+    "HAHH": [
+        {
+            "filename": "HAHH_5664.3-4987.5.mp4",
+            "version": "2",
+            "meta": "HAHH_5664.3-4987.5.json",
+            "new_name": "bb6e05bad5803753dbd34e8f1aad56e357437844955554b059ba90466a71a73d",
+            "index": 0
+        },
+        {
+            "filename": "HAHH_2760.7-2904.5.mp4",
+            "version": "2",
+            "meta": "HAHH_2760.7-2904.5.json",
+            "new_name": "058a8f3205bf4a0b95fd335756bd5ce8b30e0cd3005bde13201936006c13ddc8",
+            "index": 1
+        }
+    ],
+    "HHHA": [
+        {
+            "filename": "HHHA_277.3-3336.7.mp4",
+            "version": "2",
+            "meta": "HHHA_277.3-3336.7.json",
+            "new_name": "33a9416c68b765630961e6f43f980b492c91fbf0dc722a2223941cf3834aa220",
+            "index": 0
+        },
+        {
+            "filename": "HHHA_709.7-3336.7.mp4",
+            "version": "2",
+            "meta": "HHHA_709.7-3336.7.json",
+            "new_name": "c33a99d3731ed46a2898e80ca3e01f0669f22562400fd93da8263121b7e625c3",
+            "index": 1
+        }
+    ],
+    "AAHA": [
+        {
+            "filename": "AAHA_3399.9-3180.5.mp4",
+            "version": "2",
+            "meta": "AAHA_3399.9-3180.5.json",
+            "new_name": "0d24c9bd7c63dbab23c1f4d827509ee43a17100faeb3284555e60530fb1c1b7b",
+            "index": 0
+        },
+        {
+            "filename": "AAHA_4366.3-3180.5.mp4",
+            "version": "2",
+            "meta": "AAHA_4366.3-3180.5.json",
+            "new_name": "f3b19216862627420856a88b80be2c32afb12a2cbb6ad2b47e475d9f22a3e493",
+            "index": 1
+        }
+    ],
+    "HHAH": [
+        {
+            "filename": "HHAH_3316.5.mp4",
+            "version": "2",
+            "meta": "HHAH_3316.5.json",
+            "new_name": "ae29dae888d7ac7670cd45e55e056857c13d6fb20bda2fc77dd11872b26864c8",
+            "index": 0
+        },
+        {
+            "filename": "HHAH_3562.7.mp4",
+            "version": "2",
+            "meta": "HHAH_3562.7.json",
+            "new_name": "6bcc7f44df69c4d6f89d328ddce74376c0568874bddc821784507ae018481504",
+            "index": 1
+        }
+    ],
+    "HAAA": [
+        {
+            "filename": "HAAA_246.7-3051.5.mp4",
+            "version": "2",
+            "meta": "HAAA_246.7-3051.5.json",
+            "new_name": "23b073f2deb8e68cd1e5879dae5e1bf54bb173e2f9646759df0243cf13e4cb94",
+            "index": 0
+        }
     ]
 }
