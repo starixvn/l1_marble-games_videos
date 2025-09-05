@@ -108,22 +108,34 @@ function buildMetadata(files, metadata, version) {
  */
 function copyFile(inputFolder, outputFolder, meta) {
   const sources = [
-    { source: path.join(inputFolder, meta.filename), extension: ".mp4" },
-    { source: path.join(inputFolder, meta.meta), extension: ".json" },
+    {
+      source: path.join(inputFolder, meta.filename),
+      extension: ".mp4",
+      prefix: "",
+    },
+    {
+      source: path.join(inputFolder, meta.meta),
+      extension: ".json",
+      prefix: "",
+    },
+    {
+      source: path.join(inputFolder, `event_${meta.meta}`),
+      extension: ".json",
+      prefix: "event_",
+    },
   ];
-
   const targetFolder = path.join(outputFolder, meta.new_name);
 
   if (!fs.existsSync(targetFolder)) {
     fs.mkdirSync(targetFolder, { recursive: true });
   }
 
-  for (const { source, extension } of sources) {
+  for (const { source, extension, prefix } of sources) {
     if (!fs.existsSync(source)) {
       continue;
     }
 
-    const target = path.join(targetFolder, meta.new_name + extension);
+    const target = path.join(targetFolder, prefix + meta.new_name + extension);
 
     if (!fs.existsSync(target)) {
       fs.copyFileSync(source, target);
@@ -138,11 +150,10 @@ function copyFile(inputFolder, outputFolder, meta) {
  * @param {string} outputPath - Output directory path
  */
 function copyAllFiles(metadata, inputPath, outputPath) {
-  const allFiles = Object.values(metadata).flat();
+  let allFiles = Object.values(metadata).flat().length;
   let copiedCount = 0;
   let errorCount = 0;
-
-  console.log(`📋 Copying ${allFiles.length} files to output directory...`);
+  let skippedCount = 0;
 
   for (const goalSequence of Object.keys(metadata)) {
     for (const meta of metadata[goalSequence]) {
@@ -154,12 +165,12 @@ function copyAllFiles(metadata, inputPath, outputPath) {
         console.warn(`⚠️  Error copying ${meta.filename}: ${error.message}`);
       }
 
-      showProgress(copiedCount + errorCount, allFiles.length, "Copying files");
+      showProgress(copiedCount + errorCount, allFiles, "Copying files");
     }
   }
 
   console.log(
-    `\n✅ Copying completed - ${copiedCount} successful, ${errorCount} errors`,
+    `\n✅ Copying completed - ${copiedCount} successful, ${errorCount} errors, ${skippedCount} skipped`,
   );
 }
 
