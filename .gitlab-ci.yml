@@ -34,6 +34,7 @@ after_script:
 
       echo "[$THEME] Putting encryption.key"
       s3cmd -c $s3cfg put --quiet keys/encryption.key "s3://$BUCKET/$THEME/encryption.key"
+      s3cmd -c $s3cfg put --quiet configs/config_voice.json "s3://$BUCKET/$THEME/config_voice.json"
 
       echo "[$THEME] Getting existing files"
       (s3cmd -c $s3cfg ls s3://$BUCKET/$THEME/ | awk '{print $4}' | sed "s|s3://$BUCKET/$THEME/||" | grep -v '/$') > $uploaded
