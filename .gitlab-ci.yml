@@ -75,6 +75,7 @@ sync:
           - galaxy
           - youtube
           - marble_tv
+          - soccerpingoal
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -88,3 +89,4 @@ sync:
           - galaxy
           - youtube
           - marble_tv
+          - soccerpingoal
