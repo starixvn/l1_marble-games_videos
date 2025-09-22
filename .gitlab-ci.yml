@@ -76,6 +76,14 @@ sync:
           - youtube
           - marble_tv
           - soccerpingoal
+          - ucl_ars
+          - ucl_che
+          - ucl_fcb
+          - ucl_liv
+          - ucl_mci
+          - ucl_psg
+          - ucl_rma
+          - ucl_tot
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -90,3 +98,11 @@ sync:
           - youtube
           - marble_tv
           - soccerpingoal
+          - ucl_ars
+          - ucl_che
+          - ucl_fcb
+          - ucl_liv
+          - ucl_mci
+          - ucl_psg
+          - ucl_rma
+          - ucl_tot
