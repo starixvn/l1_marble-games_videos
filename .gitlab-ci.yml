@@ -77,8 +77,10 @@ sync:
           - marble_tv
           - soccerpingoal
           - ucl_ars
+          - ucl_bar
           - ucl_che
           - ucl_fcb
+          - ucl_juv
           - ucl_liv
           - ucl_mci
           - ucl_psg
@@ -99,8 +101,10 @@ sync:
           - marble_tv
           - soccerpingoal
           - ucl_ars
+          - ucl_bar
           - ucl_che
           - ucl_fcb
+          - ucl_juv
           - ucl_liv
           - ucl_mci
           - ucl_psg
