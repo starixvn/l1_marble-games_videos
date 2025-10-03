@@ -140,9 +140,9 @@ sync_soccer_pingoal:
         BUCKET: scstream
         THEME: soccerpingoal
         DIRECTORY:
-          - R1B2
+          - /R1B2
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME: soccerpingoal
         DIRECTORY:
-          - R1B2
+          - /R1B2
