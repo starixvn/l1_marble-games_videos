@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Copy Pingoal Videos",
+      "group": "Pingoal",
+      "command": "node",
+      "args": ["./scripts/copy_pingoal.js", "${input:theme}"]
+    },
+    {
+      "type": "shell",
+      "label": "Preprocss Video",
+      "command": "node",
+      "args": ["./scripts/ffmpeg.js", "${input:theme}", "${input:directory}"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "theme",
+      "type": "promptString",
+      "description": "Enter the theme (e.g., galaxy, nature, abstract):",
+      "default": "galaxy"
+    },
+    {
+      "id": "directory",
+      "type": "promptString",
+      "description": "Enter the directory (optional, start with /):",
+      "default": ""
+    }
+  ]
+}

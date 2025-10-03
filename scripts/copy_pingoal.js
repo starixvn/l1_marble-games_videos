@@ -118,7 +118,7 @@ function copyFile(inputFolder, outputFolder, meta) {
       prefix: "",
     },
   ];
-  const targetFolder = path.join(outputFolder, meta.new_name);
+  const targetFolder = path.join(outputFolder, meta.channel, meta.new_name);
 
   if (!fs.existsSync(targetFolder)) {
     fs.mkdirSync(targetFolder, { recursive: true });

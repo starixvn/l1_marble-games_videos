@@ -8,17 +8,6 @@ const fs = require("fs");
 const path = require("path");
 const { showProgress } = require("./progress");
 
-const presetConfigs = {
-  pingoal: {
-    "720p": ["scale=748:1334"],
-    "240p": ["scale=249:444"],
-  },
-  default: {
-    "720p": ["scale=1280:720"],
-    "240p": ["scale=426:240"],
-  },
-};
-
 function isAlreadyConverted(target, filename) {
   const fileDir = path.join(target, filename);
   const masterPlaylist = path.join(fileDir, `${filename}.m3u8`);
@@ -26,12 +15,11 @@ function isAlreadyConverted(target, filename) {
   return fs.existsSync(masterPlaylist);
 }
 
-function convertFile(filename, target, preset) {
+function convertFile(filename, target) {
   return new Promise((resolve, reject) => {
     const outputDir = path.join(target, filename);
     const filepath = path.join(outputDir, `${filename}.mp4`);
     const keyInfo = "keys/key.info";
-    const config = presetConfigs[preset] || presetConfigs["default"];
 
     const command = [
       "ffmpeg",
@@ -107,7 +95,7 @@ function readAllFiles(source) {
   return files.filter((file) => file.endsWith(".mp4"));
 }
 
-async function processVideos(target, preset) {
+async function processVideos(target) {
   try {
     console.log(`\n🚀 Starting video processing for target: ${target}`);
     console.log(`📁 Scanning directory for MP4 files...`);
@@ -137,7 +125,7 @@ async function processVideos(target, preset) {
       }
 
       try {
-        await convertFile(filename, target, preset);
+        await convertFile(filename, target);
 
         convertedCount++;
       } catch (error) {
@@ -161,8 +149,7 @@ async function processVideos(target, preset) {
 
 const fileServer = "//ds925p.nexdev.net/paradigm";
 const theme = process.argv[2];
-const preset = process.argv[3] || "";
-const target = `${fileServer}/deployments/${theme}`;
+let directory = process.argv[3] || "";
 
 if (!theme) {
   console.error("❌ Usage: node ffmpeg.js <theme>");
@@ -170,9 +157,15 @@ if (!theme) {
   process.exit(1);
 }
 
+if (directory && !directory.startsWith("/")) {
+  directory = `/${directory}`;
+}
+
+const target = `${fileServer}/deployments/${theme}${directory}`;
+
 console.log(`📁 File Server: ${fileServer}`);
 console.log(`🎨 Theme: ${theme}`);
 console.log(`🎯 Target: ${target}`);
 console.log(`⏰ Started at: ${new Date().toLocaleString()}`);
 
-processVideos(target, preset);
+processVideos(target);
