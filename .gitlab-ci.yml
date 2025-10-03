@@ -22,6 +22,7 @@ after_script:
     ENVIRONMENT: $ENVIRONMENT
     BUCKET: $BUCKET
     THEME: $THEME
+    DIRECTORY: ""
   script:
     - |
       s3cfg=configs/$ENVIRONMENT.s3cfg
@@ -49,7 +50,7 @@ after_script:
           continue
         fi
 
-        s3cmd -c $s3cfg put --quiet "$file" "s3://$BUCKET/$THEME/$filename"
+        s3cmd -c $s3cfg put --quiet "$file" "s3://$BUCKET/$THEME$DIRECTORY/$filename"
 
         count=$((count + 1))
         echo "[$THEME] Synced $count/$((total_files - skipped)) files, skipped $skipped files"
@@ -58,7 +59,7 @@ after_script:
   only:
     - main
 
-sync:
+sync_base:
   extends: .sync
   parallel:
     matrix:
@@ -66,16 +67,47 @@ sync:
         BUCKET: scstream
         THEME:
           - 2001
+          - galaxy
+          - youtube
+          - marble_tv
+      - ENVIRONMENT: prod
+        BUCKET: vnteam-sc-stream-prod
+        THEME:
+          - 2001
+          - galaxy
+          - youtube
+          - marble_tv
+
+sync_epl:
+  extends: .sync
+  parallel:
+    matrix:
+      - ENVIRONMENT: local
+        BUCKET: scstream
+        THEME:
           - epl_ars
           - epl_che
           - epl_liv
           - epl_mci
           - epl_mun
           - epl_tot
-          - galaxy
-          - youtube
-          - marble_tv
-          - soccerpingoal
+      - ENVIRONMENT: prod
+        BUCKET: vnteam-sc-stream-prod
+        THEME:
+          - epl_ars
+          - epl_che
+          - epl_liv
+          - epl_mci
+          - epl_mun
+          - epl_tot
+
+sync_ucl:
+  extends: .sync
+  parallel:
+    matrix:
+      - ENVIRONMENT: local
+        BUCKET: scstream
+        THEME:
           - ucl_ars
           - ucl_bar
           - ucl_che
@@ -89,17 +121,6 @@ sync:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
-          - 2001
-          - epl_ars
-          - epl_che
-          - epl_liv
-          - epl_mci
-          - epl_mun
-          - epl_tot
-          - galaxy
-          - youtube
-          - marble_tv
-          - soccerpingoal
           - ucl_ars
           - ucl_bar
           - ucl_che
@@ -110,3 +131,18 @@ sync:
           - ucl_psg
           - ucl_rma
           - ucl_tot
+
+sync_soccer_pingoal:
+  extends: .sync
+  parallel:
+    matrix:
+      - ENVIRONMENT: local
+        BUCKET: scstream
+        THEME: soccerpingoal
+        DIRECTORY:
+          - R1B2
+      - ENVIRONMENT: prod
+        BUCKET: vnteam-sc-stream-prod
+        THEME: soccerpingoal
+        DIRECTORY:
+          - R1B2
