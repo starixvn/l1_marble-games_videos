@@ -141,6 +141,7 @@ sync_soccer_pingoal:
       - ENVIRONMENT: local
         BUCKET: scstream
         THEME: soccerpingoal
+        FIND_OPTIONS: "! -name *.mp4"
         DIRECTORY:
           - /R1B2
           - /R1B3
@@ -175,6 +176,7 @@ sync_soccer_pingoal:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME: soccerpingoal
+        FIND_OPTIONS: "! -name *.mp4"
         DIRECTORY:
           - /R1B2
           - /R1B3
@@ -206,14 +208,3 @@ sync_soccer_pingoal:
           - /R6B3
           - /R6B4
           - /R6B5
-
-sync_soccer_pingoal_test:
-  extends: .sync
-  parallel:
-    matrix:
-      - ENVIRONMENT: local
-        BUCKET: scstream
-        THEME: soccerpingoal_test
-        FIND_OPTIONS: "! -name *.mp4"
-        DIRECTORY:
-          - /R1B1
