@@ -23,13 +23,14 @@ after_script:
     BUCKET: $BUCKET
     THEME: $THEME
     DIRECTORY: ""
+    FIND_OPTIONS: ""
   script:
     - |
       s3cfg=configs/$ENVIRONMENT.s3cfg
       fileserver_path=/paradigm
       uploaded=uploaded.txt
       theme=$THEME
-      total_files=$(find $fileserver_path/$THEME$DIRECTORY -type f | wc -l)
+      total_files=$(find $fileserver_path/$THEME$DIRECTORY -type f $FIND_OPTIONS | wc -l)
       count=0
       skipped=0
 
@@ -40,7 +41,7 @@ after_script:
       echo "[$THEME] Getting existing files"
       (s3cmd -c $s3cfg ls s3://$BUCKET/$THEME/ | awk '{print $4}' | sed "s|s3://$BUCKET/$THEME/||" | grep -v '/$') > $uploaded
 
-      find $fileserver_path/$THEME$DIRECTORY -type f | while read file; do
+      find $fileserver_path/$THEME$DIRECTORY -type f $FIND_OPTIONS | while read file; do
         filename=$(basename "$file")
 
         if grep -Fxq -- "$filename" "$uploaded"; then
@@ -58,6 +59,7 @@ after_script:
   when: manual
   only:
     - main
+    - develop
 
 sync_base:
   extends: .sync
@@ -204,3 +206,14 @@ sync_soccer_pingoal:
           - /R6B3
           - /R6B4
           - /R6B5
+
+sync_soccer_pingoal_test:
+  extends: .sync
+  parallel:
+    matrix:
+      - ENVIRONMENT: local
+        BUCKET: scstream
+        THEME: soccerpingoal_test
+        FIND_OPTIONS: "! -name *.mp4"
+        DIRECTORY:
+          - /R1B1
