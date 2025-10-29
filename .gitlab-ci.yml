@@ -208,3 +208,18 @@ sync_soccer_pingoal:
           - /R6B3
           - /R6B4
           - /R6B5
+
+sync_ultra_live:
+  extends: .sync
+  parallel:
+    matrix:
+      - ENVIRONMENT: local
+        BUCKET: scstream
+        FIND_OPTIONS: "! -name *.mp4"
+        THEME:
+          - ultra_live_galaxy
+      - ENVIRONMENT: prod
+        BUCKET: vnteam-sc-stream-prod
+        FIND_OPTIONS: "! -name *.mp4"
+        THEME:
+          - ultra_live_galaxy
