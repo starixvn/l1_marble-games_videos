@@ -3,8 +3,8 @@ include:
 
 stages:
   - deploy
-  - deploy_local
-  - deploy_prod
+  - local
+  - prod
   - clean
 
 default:
