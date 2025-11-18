@@ -21,7 +21,7 @@ after_script:
 .sync:
   stage: deploy
   image:
-    name: hub.lumigame.com/docker-hub/d3fk/s3cmd
+    name: hub.lumigame.com/docker-hub/d3fk/s3cmd@sha256:4252b3d04c18dc7fec2117259ab5dc0e51cb46b8719e661762222b44f6559189
     entrypoint: ["/bin/sh"]
   variables:
     ENVIRONMENT: $ENVIRONMENT
@@ -69,7 +69,7 @@ after_script:
 .rm:
   stage: deploy
   image:
-    name: hub.lumigame.com/docker-hub/d3fk/s3cmd
+    name: hub.lumigame.com/docker-hub/d3fk/s3cmd@sha256:4252b3d04c18dc7fec2117259ab5dc0e51cb46b8719e661762222b44f6559189
     entrypoint: ["/bin/sh"]
   variables:
     ENVIRONMENT: $ENVIRONMENT
