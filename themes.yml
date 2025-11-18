@@ -1,4 +1,5 @@
-.theme_base:
+.theme_base_local:
+  stage: deploy_local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -8,6 +9,11 @@
           - galaxy
           - youtube
           - marble_tv
+
+.theme_base_prod:
+  stage: deploy_prod
+  parallel:
+    matrix:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -16,7 +22,8 @@
           - youtube
           - marble_tv
 
-.theme_epl:
+.theme_epl_local:
+  stage: deploy_local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -28,6 +35,11 @@
           - epl_mci
           - epl_mun
           - epl_tot
+
+.theme_epl_prod:
+  stage: deploy_prod
+  parallel:
+    matrix:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -38,7 +50,8 @@
           - epl_mun
           - epl_tot
 
-.theme_ucl:
+.theme_ucl_local:
+  stage: deploy_local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -54,6 +67,11 @@
           - ucl_psg
           - ucl_rma
           - ucl_tot
+
+.theme_ucl_prod:
+  stage: deploy_prod
+  parallel:
+    matrix:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME:
@@ -68,7 +86,8 @@
           - ucl_rma
           - ucl_tot
 
-.theme_soccer_pingoal:
+.theme_soccer_pingoal_local:
+  stage: deploy_local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -106,6 +125,11 @@
           - /R6B3
           - /R6B4
           - /R6B5
+
+.theme_soccer_pingoal_prod:
+  stage: deploy_prod
+  parallel:
+    matrix:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         THEME: soccerpingoal
@@ -142,7 +166,8 @@
           - /R6B4
           - /R6B5
 
-.theme_ultra_live:
+.theme_ultra_live_local:
+  stage: deploy_local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -150,6 +175,11 @@
         FIND_OPTIONS: "! -name *.mp4"
         THEME:
           - ultra_live_galaxy
+
+.theme_ultra_live_prod:
+  stage: deploy_prod
+  parallel:
+    matrix:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
         FIND_OPTIONS: "! -name *.mp4"

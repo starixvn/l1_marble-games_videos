@@ -3,6 +3,8 @@ include:
 
 stages:
   - deploy
+  - deploy_local
+  - deploy_prod
   - clean
 
 default:
@@ -64,25 +66,45 @@ after_script:
     - main
     - develop
 
-sync_base:
+sync_base_local:
   extends:
     - .sync
-    - .theme_base
+    - .theme_base_local
 
-sync_epl:
+sync_base_prod:
   extends:
     - .sync
-    - .theme_epl
+    - .theme_base_prod
 
-sync_ucl:
+sync_epl_local:
   extends:
     - .sync
-    - .theme_ucl
+    - .theme_epl_local
 
-sync_soccer_pingoal:
+sync_epl_prod:
   extends:
     - .sync
-    - .theme_soccer_pingoal
+    - .theme_epl_prod
+
+sync_ucl_local:
+  extends:
+    - .sync
+    - .theme_ucl_local
+
+sync_ucl_prod:
+  extends:
+    - .sync
+    - .theme_ucl_prod
+
+sync_soccer_pingoal_local:
+  extends:
+    - .sync
+    - .theme_soccer_pingoal_local
+
+sync_soccer_pingoal_prod:
+  extends:
+    - .sync
+    - .theme_soccer_pingoal_prod
 
 sync_ultra_live:
   extends:
