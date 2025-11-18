@@ -1,29 +1,27 @@
+.theme_base: &theme_base
+  - 2001
+  - galaxy
+  - youtube
+  - marble_tv
+
 .theme_base_local:
-  stage: deploy_local
+  stage: local
   parallel:
     matrix:
       - ENVIRONMENT: local
         BUCKET: scstream
-        THEME:
-          - 2001
-          - galaxy
-          - youtube
-          - marble_tv
+        THEME: *theme_base
 
 .theme_base_prod:
-  stage: deploy_prod
+  stage: prod
   parallel:
     matrix:
       - ENVIRONMENT: prod
         BUCKET: vnteam-sc-stream-prod
-        THEME:
-          - 2001
-          - galaxy
-          - youtube
-          - marble_tv
+        THEME: *theme_base
 
 .theme_epl_local:
-  stage: deploy_local
+  stage: local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -37,7 +35,7 @@
           - epl_tot
 
 .theme_epl_prod:
-  stage: deploy_prod
+  stage: prod
   parallel:
     matrix:
       - ENVIRONMENT: prod
@@ -51,7 +49,7 @@
           - epl_tot
 
 .theme_ucl_local:
-  stage: deploy_local
+  stage: local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -69,7 +67,7 @@
           - ucl_tot
 
 .theme_ucl_prod:
-  stage: deploy_prod
+  stage: prod
   parallel:
     matrix:
       - ENVIRONMENT: prod
@@ -87,7 +85,7 @@
           - ucl_tot
 
 .theme_soccer_pingoal_local:
-  stage: deploy_local
+  stage: local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -127,7 +125,7 @@
           - /R6B5
 
 .theme_soccer_pingoal_prod:
-  stage: deploy_prod
+  stage: prod
   parallel:
     matrix:
       - ENVIRONMENT: prod
@@ -167,7 +165,7 @@
           - /R6B5
 
 .theme_ultra_live_local:
-  stage: deploy_local
+  stage: local
   parallel:
     matrix:
       - ENVIRONMENT: local
@@ -177,7 +175,7 @@
           - ultra_live_galaxy
 
 .theme_ultra_live_prod:
-  stage: deploy_prod
+  stage: prod
   parallel:
     matrix:
       - ENVIRONMENT: prod
