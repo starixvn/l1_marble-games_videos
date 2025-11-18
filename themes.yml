@@ -76,3 +76,4 @@
       - FIND_OPTIONS: "! -name *.mp4"
         THEME:
           - ultra_live_galaxy
+          - test

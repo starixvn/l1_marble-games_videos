@@ -66,6 +66,26 @@ after_script:
     - main
     - develop
 
+.rm:
+  stage: deploy
+  image:
+    name: hub.lumigame.com/docker-hub/d3fk/s3cmd
+    entrypoint: ["/bin/sh"]
+  variables:
+    ENVIRONMENT: $ENVIRONMENT
+    BUCKET: $BUCKET
+    THEME: $THEME
+    DIRECTORY: ""
+    FIND_OPTIONS: ""
+  script:
+    - |
+      s3cfg=configs/$ENVIRONMENT.s3cfg
+      s3cmd -c $s3cfg del -r "s3://$BUCKET/$THEME"
+  when: manual
+  only:
+    - main
+    - develop
+
 .local:
   stage: local
   variables:
@@ -136,4 +156,10 @@ sync_ultra_live_prod:
   extends:
     - .sync
     - .prod
+    - .theme_ultra_live
+
+rm_ultra_live_local:
+  extends:
+    - .rm
+    - .local
     - .theme_ultra_live
