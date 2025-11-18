@@ -82,17 +82,13 @@ sync_base_local:
   extends:
     - .sync
     - .local
-  parallel:
-    matrix:
-      - <<: *THEME_BASE
+    - .theme_base
 
 sync_base_prod:
   extends:
     - .sync
     - .prod
-  parallel:
-    matrix:
-      - <<: *THEME_BASE
+    - .theme_base
 
 sync_epl_local:
   extends:

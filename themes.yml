@@ -1,9 +1,11 @@
-.theme_base: &THEME_BASE
-  THEME:
-    - 2001
-    - galaxy
-    - youtube
-    - marble_tv
+.theme_base:
+  parallel:
+    matrix:
+      - THEME:
+          - 2001
+          - galaxy
+          - youtube
+          - marble_tv
 
 .theme_epl_local:
   stage: local
