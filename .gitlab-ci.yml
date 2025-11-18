@@ -106,7 +106,12 @@ sync_soccer_pingoal_prod:
     - .sync
     - .theme_soccer_pingoal_prod
 
-sync_ultra_live:
+sync_ultra_live_local:
   extends:
     - .sync
-    - .theme_ultra_live
+    - .theme_ultra_live_local
+
+sync_ultra_live_prod:
+  extends:
+    - .sync
+    - .theme_ultra_live_prod
