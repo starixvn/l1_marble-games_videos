@@ -66,15 +66,33 @@ after_script:
     - main
     - develop
 
+.local:
+  stage: local
+  variables:
+    ENVIRONMENT: local
+    BUCKET: scstream
+
+.prod:
+  stage: prod
+  variables:
+    ENVIRONMENT: prod
+    BUCKET: vnteam-sc-stream-prod
+
 sync_base_local:
   extends:
     - .sync
-    - .theme_base_local
+    - .local
+  parallel:
+    matrix:
+      - <<: *THEME_BASE
 
 sync_base_prod:
   extends:
     - .sync
-    - .theme_base_prod
+    - .prod
+  parallel:
+    matrix:
+      - <<: *THEME_BASE
 
 sync_epl_local:
   extends:
