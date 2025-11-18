@@ -76,3 +76,10 @@
       - FIND_OPTIONS: "! -name *.mp4"
         THEME:
           - ultra_live_galaxy
+
+.theme_vi:
+  parallel:
+    matrix:
+      - THEME:
+          - vi_hangday
+          - vi_lachtray

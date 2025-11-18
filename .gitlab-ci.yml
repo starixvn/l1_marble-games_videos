@@ -158,6 +158,18 @@ sync_ultra_live_prod:
     - .prod
     - .theme_ultra_live
 
+sync_vi_local:
+  extends:
+    - .sync
+    - .local
+    - .theme_vi
+
+sync_vi_prod:
+  extends:
+    - .sync
+    - .prod
+    - .theme_vi
+
 rm_ultra_live_local:
   extends:
     - .rm
