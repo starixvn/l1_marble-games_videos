@@ -93,39 +93,47 @@ sync_base_prod:
 sync_epl_local:
   extends:
     - .sync
-    - .theme_epl_local
+    - .local
+    - .theme_epl
 
 sync_epl_prod:
   extends:
     - .sync
-    - .theme_epl_prod
+    - .prod
+    - .theme_epl
 
 sync_ucl_local:
   extends:
     - .sync
-    - .theme_ucl_local
+    - .local
+    - .theme_ucl
 
 sync_ucl_prod:
   extends:
     - .sync
-    - .theme_ucl_prod
+    - .prod
+    - .theme_ucl
 
 sync_soccer_pingoal_local:
   extends:
     - .sync
-    - .theme_soccer_pingoal_local
+    - .local
+    - .theme_soccer_pingoal
 
 sync_soccer_pingoal_prod:
   extends:
     - .sync
-    - .theme_soccer_pingoal_prod
+    - .prod
+    - .theme_soccer_pingoal
 
 sync_ultra_live_local:
   extends:
     - .sync
-    - .theme_ultra_live_local
+    - .local
+    - .theme_ultra_live
 
 sync_ultra_live_prod:
   extends:
     - .sync
-    - .theme_ultra_live_prod
+    - .prod
+    - .theme_ultra_live
