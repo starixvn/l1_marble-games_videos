@@ -1,3 +1,6 @@
+include:
+  - local: themes.yml
+
 stages:
   - deploy
   - clean
@@ -62,164 +65,26 @@ after_script:
     - develop
 
 sync_base:
-  extends: .sync
-  parallel:
-    matrix:
-      - ENVIRONMENT: local
-        BUCKET: scstream
-        THEME:
-          - 2001
-          - galaxy
-          - youtube
-          - marble_tv
-      - ENVIRONMENT: prod
-        BUCKET: vnteam-sc-stream-prod
-        THEME:
-          - 2001
-          - galaxy
-          - youtube
-          - marble_tv
+  extends:
+    - .sync
+    - .theme_base
 
 sync_epl:
-  extends: .sync
-  parallel:
-    matrix:
-      - ENVIRONMENT: local
-        BUCKET: scstream
-        THEME:
-          - epl_ars
-          - epl_che
-          - epl_liv
-          - epl_mci
-          - epl_mun
-          - epl_tot
-      - ENVIRONMENT: prod
-        BUCKET: vnteam-sc-stream-prod
-        THEME:
-          - epl_ars
-          - epl_che
-          - epl_liv
-          - epl_mci
-          - epl_mun
-          - epl_tot
+  extends:
+    - .sync
+    - .theme_epl
 
 sync_ucl:
-  extends: .sync
-  parallel:
-    matrix:
-      - ENVIRONMENT: local
-        BUCKET: scstream
-        THEME:
-          - ucl_ars
-          - ucl_bar
-          - ucl_che
-          - ucl_fcb
-          - ucl_juv
-          - ucl_liv
-          - ucl_mci
-          - ucl_psg
-          - ucl_rma
-          - ucl_tot
-      - ENVIRONMENT: prod
-        BUCKET: vnteam-sc-stream-prod
-        THEME:
-          - ucl_ars
-          - ucl_bar
-          - ucl_che
-          - ucl_fcb
-          - ucl_juv
-          - ucl_liv
-          - ucl_mci
-          - ucl_psg
-          - ucl_rma
-          - ucl_tot
+  extends:
+    - .sync
+    - .theme_ucl
 
 sync_soccer_pingoal:
-  extends: .sync
-  parallel:
-    matrix:
-      - ENVIRONMENT: local
-        BUCKET: scstream
-        THEME: soccerpingoal
-        FIND_OPTIONS: "! -name *.mp4"
-        DIRECTORY:
-          - /R1B2
-          - /R1B3
-          - /R1B4
-          - /R1B5
-          - /R1B6
-          - /R2B1
-          - /R2B3
-          - /R2B4
-          - /R2B5
-          - /R2B6
-          - /R3B1
-          - /R3B2
-          - /R3B4
-          - /R3B5
-          - /R3B6
-          - /R4B1
-          - /R4B2
-          - /R4B3
-          - /R4B5
-          - /R4B6
-          - /R5B1
-          - /R5B2
-          - /R5B3
-          - /R5B4
-          - /R5B6
-          - /R6B1
-          - /R6B2
-          - /R6B3
-          - /R6B4
-          - /R6B5
-      - ENVIRONMENT: prod
-        BUCKET: vnteam-sc-stream-prod
-        THEME: soccerpingoal
-        FIND_OPTIONS: "! -name *.mp4"
-        DIRECTORY:
-          - /R1B2
-          - /R1B3
-          - /R1B4
-          - /R1B5
-          - /R1B6
-          - /R2B1
-          - /R2B3
-          - /R2B4
-          - /R2B5
-          - /R2B6
-          - /R3B1
-          - /R3B2
-          - /R3B4
-          - /R3B5
-          - /R3B6
-          - /R4B1
-          - /R4B2
-          - /R4B3
-          - /R4B5
-          - /R4B6
-          - /R5B1
-          - /R5B2
-          - /R5B3
-          - /R5B4
-          - /R5B6
-          - /R6B1
-          - /R6B2
-          - /R6B3
-          - /R6B4
-          - /R6B5
+  extends:
+    - .sync
+    - .theme_soccer_pingoal
 
 sync_ultra_live:
-  extends: .sync
-  parallel:
-    matrix:
-      - ENVIRONMENT: local
-        BUCKET: scstream
-        FIND_OPTIONS: "! -name *.mp4"
-        THEME:
-          - ultra_live_galaxy
-      - ENVIRONMENT: prod
-        BUCKET: vnteam-sc-stream-prod
-        FIND_OPTIONS: "! -name *.mp4"
-        THEME:
-          - ultra_live_galaxy
+  extends:
+    - .sync
+    - .theme_ultra_live
