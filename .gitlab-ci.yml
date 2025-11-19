@@ -132,7 +132,8 @@ after_script:
     - render
   variables:
     THEME: $THEME
-  before_script: []
+  before_script:
+    - net use \\ds925p.nexdev.net\paradigm\deployments  /user:LUMINET\gitlab.runner $FILESERVER_PASSWORD
   after_script: []
   script:
     - "[Environment]::UserName"
