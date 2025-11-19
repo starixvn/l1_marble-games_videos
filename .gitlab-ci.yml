@@ -36,7 +36,7 @@ after_script:
       fileserver_path=/paradigm
       uploaded=uploaded.txt
       theme=$THEME
-      PARALLEL_JOBS=${PARALLEL_JOBS:-10}
+      PARALLEL_JOBS=${PARALLEL_JOBS:-4}
 
       echo "[$THEME] Putting encryption.key and config"
       s3cmd -c $s3cfg put --quiet keys/encryption.key "s3://$BUCKET/$THEME/encryption.key"
