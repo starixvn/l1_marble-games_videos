@@ -109,7 +109,7 @@ after_script:
     - develop
 
 .rm:
-  stage: deploy
+  stage: clean
   image:
     name: hub.lumigame.com/docker-hub/d3fk/s3cmd@sha256:4252b3d04c18dc7fec2117259ab5dc0e51cb46b8719e661762222b44f6559189
     entrypoint: ["/bin/sh"]
@@ -156,7 +156,6 @@ after_script:
 
 # Sync files
 sync_test:
-  stage: test
   extends:
     - .sync
     - .local
@@ -236,10 +235,8 @@ sync_vi_prod:
 
 # FFMPEG
 ffmpeg_test:
-  stage: test
   extends:
     - .ffmpeg
-    - .local
     - .theme_test
 
 ffmpeg_ultra_live:
@@ -250,13 +247,12 @@ ffmpeg_ultra_live:
 # Cleanup
 rm_ultra_live_local:
   extends:
-    - .rm
     - .local
+    - .rm
     - .theme_ultra_live
 
 rm_test:
-  stage: test
   extends:
-    - .rm
     - .local
+    - .rm
     - .theme_test
