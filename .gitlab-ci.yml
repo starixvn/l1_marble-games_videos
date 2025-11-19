@@ -135,7 +135,7 @@ after_script:
   before_script: []
   after_script: []
   script:
-    - [Environment]::UserName
+    - "[Environment]::UserName"
     - node ./scripts/ffmpeg.js $THEME
   when: manual
   only:
