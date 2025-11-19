@@ -2,6 +2,7 @@ include:
   - local: themes.yml
 
 stages:
+  - build
   - test
   - deploy
   - local
@@ -116,12 +117,23 @@ after_script:
     ENVIRONMENT: $ENVIRONMENT
     BUCKET: $BUCKET
     THEME: $THEME
-    DIRECTORY: ""
-    FIND_OPTIONS: ""
   script:
     - |
       s3cfg=configs/$ENVIRONMENT.s3cfg
       s3cmd -c $s3cfg del -r "s3://$BUCKET/$THEME"
+  when: manual
+  only:
+    - main
+    - develop
+
+.ffmpeg:
+  stage: build
+  tags:
+    - render
+  variables:
+    THEME: $THEME
+  script:
+    - node ./scripts/ffmpeg.js $THEME
   when: manual
   only:
     - main
@@ -218,6 +230,13 @@ sync_vi_prod:
     - .sync
     - .prod
     - .theme_vi
+
+# FFMPEG
+ffmpeg_test:
+  extends:
+    - .ffmpeg
+    - .local
+    - .theme_test
 
 # Cleanup
 rm_ultra_live_local:
