@@ -133,10 +133,9 @@ after_script:
   variables:
     THEME: $THEME
   before_script:
-    - net use \\ds925p.nexdev.net\paradigm\deployments  /user:LUMINET\gitlab.runner $FILESERVER_PASSWORD
+    - net use \\ds925p.nexdev.net\paradigm\deployments /user:LUMINET\gitlab.runner $FILESERVER_PASSWORD
   after_script: []
   script:
-    - "[Environment]::UserName"
     - node ./scripts/ffmpeg.js $THEME
   when: manual
   only:
@@ -242,6 +241,11 @@ ffmpeg_test:
     - .ffmpeg
     - .local
     - .theme_test
+
+ffmpeg_ultra_live:
+  extends:
+    - .ffmpeg
+    - .theme_ultra_live
 
 # Cleanup
 rm_ultra_live_local:
