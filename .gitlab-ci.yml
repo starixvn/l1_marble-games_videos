@@ -2,6 +2,7 @@ include:
   - local: themes.yml
 
 stages:
+  - test
   - deploy
   - local
   - prod
@@ -119,6 +120,13 @@ after_script:
   variables:
     ENVIRONMENT: prod
     BUCKET: vnteam-sc-stream-prod
+
+sync_test:
+  stage: test
+  extends:
+    - .sync
+    - .local
+    - .theme_test
 
 sync_base_local:
   extends:
