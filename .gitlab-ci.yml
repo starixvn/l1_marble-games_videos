@@ -132,6 +132,8 @@ after_script:
     - render
   variables:
     THEME: $THEME
+  before_script: []
+  after_script: []
   script:
     - node ./scripts/ffmpeg.js $THEME
   when: manual
