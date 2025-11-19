@@ -121,6 +121,7 @@ after_script:
     ENVIRONMENT: prod
     BUCKET: vnteam-sc-stream-prod
 
+# Sync files
 sync_test:
   stage: test
   extends:
@@ -200,8 +201,16 @@ sync_vi_prod:
     - .prod
     - .theme_vi
 
+# Cleanup
 rm_ultra_live_local:
   extends:
     - .rm
     - .local
     - .theme_ultra_live
+
+rm_test:
+  stage: test
+  extends:
+    - .rm
+    - .local
+    - .theme_test
