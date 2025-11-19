@@ -36,7 +36,7 @@ after_script:
       fileserver_path=/paradigm
       uploaded=uploaded.txt
       theme=$THEME
-      PARALLEL_JOBS=${PARALLEL_JOBS:-4}
+      PARALLEL_JOBS=${PARALLEL_JOBS:-6}
 
       echo "[$THEME] Putting encryption.key and config"
       s3cmd -c $s3cfg put --quiet keys/encryption.key "s3://$BUCKET/$THEME/encryption.key"
@@ -50,24 +50,34 @@ after_script:
       upload_script=$(mktemp)
 
       echo "[$THEME] Scanning files..."
+      skipped=0
       find $fileserver_path/$THEME$DIRECTORY -type f $FIND_OPTIONS | while read file; do
         filename=$(basename "$file")
         
         if grep -Fxq -- "$filename" "$uploaded"; then
-          : # skip
+          skipped=$((skipped + 1))
         else
           echo "$file" >> $files_to_upload
         fi
       done
 
-      total_files=$(wc -l < $files_to_upload)
+      total_files=$(wc -l < $files_to_upload | tr -d ' ')
       echo "[$THEME] Found $total_files files to upload"
 
-      # Create inline upload script (no need for function export)
+      if [ "$total_files" -eq 0 ]; then
+        echo "[$THEME] Nothing to upload"
+        exit 0
+      fi
+
+      # Create inline upload script with status output
       cat > $upload_script << 'SCRIPT_EOF'
       file="$1"
       filename=$(basename "$file")
-      s3cmd -c "$S3CFG" put --quiet "$file" "s3://$BUCKET/$THEME/$filename" 2>&1 && echo "[$THEME] Uploaded: $filename"
+      if s3cmd -c "$S3CFG" put --quiet "$file" "s3://$BUCKET/$THEME/$filename" 2>&1; then
+        echo "OK|$filename"
+      else
+        echo "FAIL|$filename"
+      fi
       SCRIPT_EOF
 
       chmod +x $upload_script
@@ -77,13 +87,21 @@ after_script:
       export BUCKET
       export THEME
 
-      # Parallel upload using xargs
-      cat $files_to_upload | xargs -P $PARALLEL_JOBS -I {} sh $upload_script {}
+      echo "[$THEME] Starting upload with $PARALLEL_JOBS workers..."
 
-      # Cleanup
-      rm -f $files_to_upload $upload_script
-
-      echo "[$THEME] Upload complete!"
+      # Parallel upload with progress counter
+      cat $files_to_upload | xargs -P $PARALLEL_JOBS -I {} sh $upload_script {} | \
+      awk -F'|' -v theme="$THEME" -v total="$total_files" '
+      {
+        count++
+        filename = $2
+        printf "[%s] Uploaded %d/%d files: %s\n", theme, count, total, filename
+        fflush()
+      }
+      END {
+        printf "[%s] Upload complete! %d/%d files uploaded\n", theme, count, total
+      }
+      '
   when: manual
   only:
     - main
