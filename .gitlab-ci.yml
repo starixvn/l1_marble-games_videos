@@ -233,6 +233,7 @@ sync_vi_prod:
 
 # FFMPEG
 ffmpeg_test:
+  stage: test
   extends:
     - .ffmpeg
     - .local
