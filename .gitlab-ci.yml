@@ -198,24 +198,32 @@ sync_ucl_prod:
     - .theme_ucl
 
 sync_soccer_pingoal_local:
+  variables:
+    FIND_OPTIONS: "! -name *.mp4"
   extends:
     - .sync
     - .local
     - .theme_soccer_pingoal
 
 sync_soccer_pingoal_prod:
+  variables:
+    FIND_OPTIONS: "! -name *.mp4"
   extends:
     - .sync
     - .prod
     - .theme_soccer_pingoal
 
 sync_ultra_live_local:
+  variables:
+    FIND_OPTIONS: "! -name *.mp4"
   extends:
     - .sync
     - .local
     - .theme_ultra_live
 
 sync_ultra_live_prod:
+  variables:
+    FIND_OPTIONS: "! -name *.mp4"
   extends:
     - .sync
     - .prod
