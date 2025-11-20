@@ -222,6 +222,23 @@ function loadMetadata(metaPath) {
   return JSON.parse(fs.readFileSync(metaPath, "utf8"));
 }
 
+function copyIntroVideos(input, output) {
+  if (!fs.existsSync(input)) {
+    return;
+  }
+
+  const files = fs.readdirSync(input);
+  const introPath = path.join(output, "intro");
+
+  if (!fs.existsSync(introPath)) {
+    fs.mkdirSync(introPath, { recursive: true });
+  }
+
+  for (const file of files) {
+    fs.copyFileSync(path.join(input, file), path.join(introPath, file));
+  }
+}
+
 /**
  * Main execution function
  */
@@ -244,6 +261,7 @@ function main() {
   // Configuration
   const fileServer = "//ds925p.nexdev.net/paradigm";
   const inputPath = `${fileServer}/resources/spinner_soccer_${theme}/Batch_${blenderVersion}/ultra_live/output`;
+  const introInputPath = `${fileServer}/resources/spinner_soccer_${theme}/Batch_${blenderVersion}/intro`;
   const outputPath = `${fileServer}/deployments/ultra_live_${theme}`;
   const metaPath = `./themes/ultra_live_${theme}/meta.json`;
   const summaryPath = `./themes/ultra_live_${theme}/summary.json`;
@@ -251,6 +269,9 @@ function main() {
   console.log(`📂 Input path: ${inputPath}`);
   console.log(`📂 Output path: ${outputPath}`);
   console.log(`📄 Metadata path: ${metaPath}`);
+
+  // Step 0: Copy intro videos
+  copyIntroVideos(introInputPath, outputPath);
 
   // Step 1: Read all files
   console.log("\n🔍 Step 1: Reading input files...");
