@@ -137,7 +137,7 @@ after_script:
   script:
     - |
       path=/paradigm/$THEME$DIRECTORY
-      ls $path
+      rm -r $path
 
   when: manual
   only:
