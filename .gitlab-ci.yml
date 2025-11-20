@@ -246,13 +246,15 @@ ffmpeg_ultra_live:
 
 # Cleanup
 rm_ultra_live_local:
+  stage: clean
   extends:
-    - .local
     - .rm
+    - .local
     - .theme_ultra_live
 
 rm_test:
+  stage: clean
   extends:
-    - .local
     - .rm
+    - .local
     - .theme_test
