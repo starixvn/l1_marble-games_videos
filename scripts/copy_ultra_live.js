@@ -228,14 +228,16 @@ function copyIntroVideos(input, output) {
   }
 
   const files = fs.readdirSync(input);
-  const introPath = path.join(output, "intro");
-
-  if (!fs.existsSync(introPath)) {
-    fs.mkdirSync(introPath, { recursive: true });
-  }
 
   for (const file of files) {
-    fs.copyFileSync(path.join(input, file), path.join(introPath, file));
+    const filename = path.basename(file, ".mp4");
+    const directory = path.join(output, filename);
+
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+
+    fs.copyFileSync(path.join(input, file), path.join(directory, file));
   }
 }
 
