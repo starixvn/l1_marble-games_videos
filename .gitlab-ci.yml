@@ -139,9 +139,13 @@ after_script:
     DIRECTORY: ""
   script:
     - |
-      path=/paradigm/$THEME$DIRECTORY/*
-      echo "Removing data in $path"
-      rm -rf $path
+      echo "Removing all files"
+      find /paradigm/$THEME$DIRECTORY -type f | while read file; do
+        echo $file
+      done
+    - |
+      echo "Removing all directories"
+      rm -rf /paradigm/$THEME$DIRECTORY/*
   when: manual
   only:
     - main
