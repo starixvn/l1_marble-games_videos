@@ -143,8 +143,12 @@ after_script:
       FILE_COUNT=$(find "$TARGET_DIR" -type f | wc -l)
 
       echo "Total files found: $FILE_COUNT"
-      echo "Removing all files"
-      rm -rf "$TARGET_DIR"/*
+      find $TARGET_DIR -type f | while read file; do
+        rm $file
+        echo $file
+      done
+
+      rm -r "$TARGET_DIR"/*
       echo "Cleanup complete."
   when: manual
   only:
