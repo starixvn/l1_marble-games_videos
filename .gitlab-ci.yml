@@ -141,20 +141,10 @@ after_script:
     - |
       TARGET_DIR="/paradigm/$THEME$DIRECTORY"
       FILE_COUNT=$(find "$TARGET_DIR" -type f | wc -l)
-      DELETED_COUNT=0
 
       echo "Total files found: $FILE_COUNT"
-
-      find "$TARGET_DIR" -type f | while read file; do
-        rm "$file"
-        ((DELETED_COUNT++))
-
-        echo "Deleted ($DELETED_COUNT/$FILE_COUNT): $file"
-      done
-
-      echo "$DELETED_COUNT files removed."
-      echo "Removing all remaining directories"
-      rm -r "$TARGET_DIR"/*
+      echo "Removing all files"
+      rm -rf "$TARGET_DIR"/*
       echo "Cleanup complete."
   when: manual
   only:
