@@ -9,6 +9,9 @@ stages:
   - prod
   - clean
 
+variables:
+  THEME: test
+
 default:
   tags:
     - k8s
@@ -136,9 +139,9 @@ after_script:
     DIRECTORY: ""
   script:
     - |
-      path=/paradigm/$THEME$DIRECTORY
-      rm -r $path
-
+      path=/paradigm/$THEME$DIRECTORY/*
+      echo "Removing data in $path"
+      rm -rf $path
   when: manual
   only:
     - main
@@ -284,3 +287,9 @@ rm_s3_test:
     - .rm_s3
     - .local
     - .theme_test
+
+rm_fileserver_ultra_live:
+  stage: clean
+  extends:
+    - .rm_fileserver
+    - .theme_ultra_live
