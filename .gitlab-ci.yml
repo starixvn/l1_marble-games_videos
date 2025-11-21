@@ -99,7 +99,7 @@ after_script:
       {
         count++
         filename = $2
-        printf "[%s] Uploaded %d/%d files: %s\n", theme, count, total, filename
+        printf "[%s] Uploaded %d/%d files: %s\r", theme, count, total, filename
         fflush()
       }
       END {
