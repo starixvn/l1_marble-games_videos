@@ -281,6 +281,11 @@ ffmpeg_ultra_live:
     - .ffmpeg
     - .theme_ultra_live
 
+ffmpeg_base:
+  extends:
+    - .ffmpeg
+    - .theme_base
+
 # Cleanup
 rm_s3_ultra_live_local:
   stage: clean
