@@ -222,6 +222,25 @@ function loadMetadata(metaPath) {
   return JSON.parse(fs.readFileSync(metaPath, "utf8"));
 }
 
+function copyIntroVideos(input, output) {
+  if (!fs.existsSync(input)) {
+    return;
+  }
+
+  const files = fs.readdirSync(input);
+
+  for (const file of files) {
+    const filename = path.basename(file, ".mp4");
+    const directory = path.join(output, filename);
+
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+
+    fs.copyFileSync(path.join(input, file), path.join(directory, file));
+  }
+}
+
 /**
  * Main execution function
  */
@@ -247,10 +266,14 @@ function main() {
   const outputPath = `${fileServer}/deployments/${theme}`;
   const metaPath = `./themes/${theme}/meta.json`;
   const summaryPath = `./themes/${theme}/summary.json`;
+  const introInputPath = `${fileServer}/resources/spinner_soccer_${theme}/Batch_${blenderVersion}/intro`;
 
   console.log(`📂 Input path: ${inputPath}`);
   console.log(`📂 Output path: ${outputPath}`);
   console.log(`📄 Metadata path: ${metaPath}`);
+
+  // Step 0: Copy intro videos
+  copyIntroVideos(introInputPath, outputPath);
 
   // Step 1: Read all files
   console.log("\n🔍 Step 1: Reading input files...");
